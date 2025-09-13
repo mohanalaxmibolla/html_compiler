@@ -1,0 +1,1005 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MY HTML PAGE</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            padding: 30px 0;
+            background: linear-gradient(135deg, #6e8efb, #a777e3);
+            color: white;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1 {
+            font-size: 2.8rem;
+            margin-bottom: 15px;
+        }
+        
+        h2 {
+            font-size: 2rem;
+            color: #6e8efb;
+            margin: 25px 0 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e0e0e0;
+        }
+        
+        h3 {
+            font-size: 1.5rem;
+            color: #a777e3;
+            margin: 20px 0 10px;
+        }
+        
+        p {
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+        
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .method {
+            flex: 1;
+            min-width: 300px;
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease;
+        }
+        
+        .method:hover {
+            transform: translateY(-5px);
+        }
+        
+        .code {
+            background-color: #2d2d2d;
+            color: #f8f8f2;
+            padding: 15px;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            margin: 15px 0;
+            overflow-x: auto;
+        }
+        
+        .step {
+            margin-bottom: 20px;
+        }
+        
+        .step-number {
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            background: #6e8efb;
+            color: white;
+            text-align: center;
+            line-height: 30px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+        
+        .editor {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            margin-bottom: 30px;
+        }
+        
+        /* Menu Bar Styles */
+        .menu-bar {
+            display: flex;
+            background: linear-gradient(135deg, #6e8efb, #a777e3);
+            border-radius: 5px;
+            margin-bottom: 15px;
+            padding: 0 10px;
+        }
+        
+        .menu-item {
+            position: relative;
+            padding: 10px 15px;
+            color: white;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        
+        .menu-item:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        .menu-item:hover .dropdown {
+            display: block;
+        }
+        
+        .dropdown {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: white;
+            min-width: 200px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+            z-index: 100;
+            overflow: hidden;
+        }
+        
+        .dropdown-item {
+            padding: 10px 15px;
+            color: #333;
+            cursor: pointer;
+            transition: background 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .dropdown-item:hover {
+            background: #f0f0f0;
+        }
+        
+        .dropdown-item i {
+            width: 20px;
+            text-align: center;
+        }
+        
+        .dropdown-divider {
+            height: 1px;
+            background: #e0e0e0;
+            margin: 5px 0;
+        }
+        
+        .editor-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .editor-toolbar {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .toolbar-btn {
+            background: #6e8efb;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+        
+        .toolbar-btn:hover {
+            background: #5a7de0;
+            transform: translateY(-2px);
+        }
+        
+        .code-editor {
+            display: flex;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        
+        .line-numbers {
+            background-color: #f0f0f0;
+            padding: 15px 10px;
+            font-family: 'Courier New', monospace;
+            text-align: right;
+            border-right: 1px solid #ddd;
+            user-select: none;
+            overflow: hidden;
+            line-height: 1.5;
+        }
+        
+        .code-input-container {
+            flex: 1;
+            position: relative;
+        }
+        
+        #html-code {
+            width: 100%;
+            height: 300px;
+            padding: 15px;
+            border: none;
+            border-radius: 0;
+            font-family: 'Courier New', monospace;
+            resize: none;
+            line-height: 1.5;
+            tab-size: 4;
+            background: #f8f9fa;
+        }
+        
+        button {
+            background: #6e8efb;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background 0.3s;
+        }
+        
+        button:hover {
+            background: #5a7de0;
+        }
+        
+        .output {
+            margin-top: 20px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background: #f9f9f9;
+            min-height: 200px;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            color: #777;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+            
+            h1 {
+                font-size: 2.2rem;
+            }
+            
+            h2 {
+                font-size: 1.8rem;
+            }
+            
+            .menu-bar {
+                flex-wrap: wrap;
+            }
+            
+            .editor-toolbar {
+                flex-wrap: wrap;
+            }
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-content {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2);
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #777;
+        }
+        
+        .modal-body {
+            margin-bottom: 20px;
+        }
+        
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+        
+        .settings-group {
+            margin-bottom: 15px;
+        }
+        
+        .settings-label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+        
+        .settings-input {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        
+        .settings-checkbox {
+            margin-right: 8px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>MY HTML PAGE</h1>
+        <p>Write, edit, and preview HTML code in real-time</p>
+    </header>
+    
+    <div class="container">
+        <div class="method">
+            <h2>Methods to Run HTML File</h2>
+            <div class="step">
+                <span class="step-number">1</span>
+                <h3>Using a Local Server</h3>
+                <p>Run your HTML file through a local server for best results.</p>
+                <div class="code">
+                    // Using Python<br>
+                    python -m http.server 8000
+                </div>
+            </div>
+            <div class="step">
+                <span class="step-number">2</span>
+                <h3>Direct File Opening</h3>
+                <p>Open the HTML file directly in your browser.</p>
+                <div class="code">
+                    // Right-click file > Open With > Browser
+                </div>
+            </div>
+            <div class="step">
+                <span class="step-number">3</span>
+                <h3>Online Editors</h3>
+                <p>Use online platforms like CodePen, JSFiddle, or this editor!</p>
+                <a href="#editor-section" class="toolbar-btn">Try This Editor</a>
+            </div>
+        </div>
+        
+        <div class="method">
+            <h2>HTML Basics</h2>
+            <div class="step">
+                <span class="step-number">1</span>
+                <h3>Document Structure</h3>
+                <p>Every HTML document needs a basic structure:</p>
+                <div class="code">
+                    &lt;!DOCTYPE html&gt;<br>
+                    &lt;html&gt;<br>
+                    &lt;head&gt;<br>
+                    &nbsp;&nbsp;&lt;title&gt;Page Title&lt;/title&gt;<br>
+                    &lt;/head&gt;<br>
+                    &lt;body&gt;<br>
+                    &nbsp;&nbsp;&lt;h1&gt;My Heading&lt;/h1&gt;<br>
+                    &nbsp;&nbsp;&lt;p&gt;My paragraph.&lt;/p&gt;<br>
+                    &lt;/body&gt;<br>
+                    &lt;/html&gt;
+                </div>
+            </div>
+            <div class="step">
+                <span class="step-number">2</span>
+                <h3>Common Tags</h3>
+                <p>Essential HTML tags you should know:</p>
+                <div class="code">
+                    &lt;h1&gt; to &lt;h6&gt; // Headings<br>
+                    &lt;p&gt; // Paragraphs<br>
+                    &lt;a href="#"&gt; // Links<br>
+                    &lt;img src="#" alt="#"&gt; // Images<br>
+                    &lt;div&gt; // Divisions<br>
+                    &lt;span&gt; // Inline container
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="editor" id="editor-section">
+        <!-- Menu Bar -->
+        <div class="menu-bar">
+            <div class="menu-item">
+                File
+                <div class="dropdown">
+                    <div class="dropdown-item" onclick="newFile()"><i>📄</i> New</div>
+                    <div class="dropdown-item" onclick="openFile()"><i>📂</i> Open</div>
+                    <div class="dropdown-item" onclick="saveFile()"><i>💾</i> Save</div>
+                    <div class="dropdown-item" onclick="saveAsFile()"><i>📋</i> Save As</div>
+                    <div class="dropdown-divider"></div>
+                    <div class="dropdown-item" onclick="printCode()"><i>🖨️</i> Print</div>
+                </div>
+            </div>
+            <div class="menu-item">
+                Edit
+                <div class="dropdown">
+                    <div class="dropdown-item" onclick="undo()"><i>↩️</i> Undo</div>
+                    <div class="dropdown-item" onclick="redo()"><i>↪️</i> Redo</div>
+                    <div class="dropdown-divider"></div>
+                    <div class="dropdown-item" onclick="cut()"><i>✂️</i> Cut</div>
+                    <div class="dropdown-item" onclick="copy()"><i>📋</i> Copy</div>
+                    <div class="dropdown-item" onclick="paste()"><i>📌</i> Paste</div>
+                    <div class="dropdown-divider"></div>
+                    <div class="dropdown-item" onclick="find()"><i>🔍</i> Find</div>
+                    <div class="dropdown-item" onclick="replace()"><i>🔄</i> Replace</div>
+                </div>
+            </div>
+            <div class="menu-item">
+                View
+                <div class="dropdown">
+                    <div class="dropdown-item" onclick="zoomIn()"><i>➕</i> Zoom In</div>
+                    <div class="dropdown-item" onclick="zoomOut()"><i>➖</i> Zoom Out</div>
+                    <div class="dropdown-item" onclick="resetZoom()"><i>🔍</i> Reset Zoom</div>
+                    <div class="dropdown-divider"></div>
+                    <div class="dropdown-item" onclick="toggleFullscreen()"><i>📺</i> Toggle Fullscreen</div>
+                    <div class="dropdown-item" onclick="toggleLineNumbers()"><i>🔢</i> Toggle Line Numbers</div>
+                </div>
+            </div>
+            <div class="menu-item">
+                Run
+                <div class="dropdown">
+                    <div class="dropdown-item" onclick="runCode()"><i>🚀</i> Run</div>
+                    <div class="dropdown-item" onclick="runInNewTab()"><i>📑</i> Run in New Tab</div>
+                    <div class="dropdown-item" onclick="validateHTML()"><i>✓</i> Validate HTML</div>
+                    <div class="dropdown-divider"></div>
+                    <div class="dropdown-item" onclick="clearOutput()"><i>🧹</i> Clear Output</div>
+                </div>
+            </div>
+            <div class="menu-item">
+                Settings
+                <div class="dropdown">
+                    <div class="dropdown-item" onclick="openSettings()"><i>⚙️</i> Editor Settings</div>
+                    <div class="dropdown-item" onclick="changeTheme()"><i>🎨</i> Change Theme</div>
+                    <div class="dropdown-divider"></div>
+                    <div class="dropdown-item" onclick="keyboardShortcuts()"><i>⌨️</i> Keyboard Shortcuts</div>
+                </div>
+            </div>
+            <div class="menu-item">
+                Help
+                <div class="dropdown">
+                    <div class="dropdown-item" onclick="showHelp()"><i>❓</i> Help Contents</div>
+                    <div class="dropdown-item" onclick="showShortcuts()"><i>⚡</i> Keyboard Shortcuts</div>
+                    <div class="dropdown-divider"></div>
+                    <div class="dropdown-item" onclick="about()"><i>ℹ️</i> About</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="editor-header">
+            <h2>Try It Yourself</h2>
+            <div class="editor-toolbar">
+                <button class="toolbar-btn" onclick="runCode()">Run</button>
+                <button class="toolbar-btn" onclick="formatCode()">Format</button>
+                <button class="toolbar-btn" onclick="clearCode()">Clear</button>
+                <button class="toolbar-btn" onclick="insertTemplate()">Template</button>
+            </div>
+        </div>
+        
+        <p>Write some HTML code below and see the result instantly:</p>
+        
+        <div class="code-editor">
+            <div class="line-numbers" id="line-numbers">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10</div>
+            <div class="code-input-container">
+                <textarea id="html-code" placeholder="Enter your HTML code here..." oninput="updateLineNumbers()" onscroll="syncScroll()"><!-- Write your HTML code here -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Page</title>
+</head>
+<body>
+    <h1>Hello, World!</h1>
+    <p>This is a sample HTML page.</p>
+</body>
+</html></textarea>
+            </div>
+        </div>
+        
+        <button onclick="runCode()">Run Code</button>
+        
+        <h3>Output:</h3>
+        <div class="output" id="output"></div>
+    </div>
+    
+    <!-- Settings Modal -->
+    <div class="modal" id="settings-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Editor Settings</h3>
+                <button class="close-modal" onclick="closeModal('settings-modal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="settings-group">
+                    <label class="settings-label">Font Size</label>
+                    <input type="range" min="12" max="24" value="16" class="settings-input" id="font-size" onchange="changeFontSize(this.value)">
+                    <span id="font-size-value">16px</span>
+                </div>
+                <div class="settings-group">
+                    <label class="settings-label">Tab Size</label>
+                    <select class="settings-input" id="tab-size" onchange="changeTabSize(this.value)">
+                        <option value="2">2 spaces</option>
+                        <option value="4" selected>4 spaces</option>
+                        <option value="8">8 spaces</option>
+                    </select>
+                </div>
+                <div class="settings-group">
+                    <label>
+                        <input type="checkbox" class="settings-checkbox" id="line-numbers-toggle" checked onchange="toggleLineNumbersSetting()">
+                        Show Line Numbers
+                    </label>
+                </div>
+                <div class="settings-group">
+                    <label>
+                        <input type="checkbox" class="settings-checkbox" id="word-wrap-toggle" onchange="toggleWordWrapSetting()">
+                        Enable Word Wrap
+                    </label>
+                </div>
+                <div class="settings-group">
+                    <label>
+                        <input type="checkbox" class="settings-checkbox" id="auto-format" onchange="toggleAutoFormat()">
+                        Auto Format on Save
+                    </label>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="toolbar-btn" onclick="closeModal('settings-modal')">Cancel</button>
+                <button class="toolbar-btn" onclick="saveSettings()">Save Settings</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Help Modal -->
+    <div class="modal" id="help-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Help Contents</h3>
+                <button class="close-modal" onclick="closeModal('help-modal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <h4>HTML Editor Guide</h4>
+                <p>This editor allows you to write HTML code and see the results in real-time.</p>
+                <p><strong>Features:</strong></p>
+                <ul>
+                    <li>Write HTML in the editor panel</li>
+                    <li>Click "Run Code" to see the output</li>
+                    <li>Use the toolbar to format, clear, or insert templates</li>
+                    <li>Access additional options through the menu bar</li>
+                </ul>
+                <p><strong>Keyboard Shortcuts:</strong></p>
+                <ul>
+                    <li>Ctrl+S / Cmd+S: Save</li>
+                    <li>Ctrl+Z / Cmd+Z: Undo</li>
+                    <li>Ctrl+Y / Cmd+Y: Redo</li>
+                    <li>Ctrl+F / Cmd+F: Find</li>
+                    <li>Ctrl+Enter / Cmd+Enter: Run Code</li>
+                </ul>
+            </div>
+            <div class="modal-footer">
+                <button class="toolbar-btn" onclick="closeModal('help-modal')">Close</button>
+            </div>
+        </div>
+    </div>
+    <script>
+        const htmlCodeTextarea = document.getElementById('html-code');
+        const lineNumbersElement = document.getElementById('line-numbers');
+        let fontSize = 16;
+        let tabSize = 4;
+        let showLineNumbers = true;
+        let wordWrap = false;
+        let autoFormat = false;
+        
+        // Initialize line numbers
+        updateLineNumbers();
+        
+        function updateLineNumbers() {
+            const lines = htmlCodeTextarea.value.split('\n');
+            let lineNumbersHTML = '';
+            
+            for (let i = 1; i <= lines.length; i++) {
+                lineNumbersHTML += i + '<br>';
+            }
+            
+            lineNumbersElement.innerHTML = lineNumbersHTML;
+        }
+        
+        function syncScroll() {
+            lineNumbersElement.scrollTop = htmlCodeTextarea.scrollTop;
+        }
+        
+        function runCode() {
+            const htmlCode = htmlCodeTextarea.value;
+            const outputFrame = document.getElementById('output');
+            
+            // Create a sandboxed iframe for security
+            outputFrame.innerHTML = '<iframe style="width: 100%; height: 300px; border: none;"></iframe>';
+            const iframe = outputFrame.querySelector('iframe');
+            const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+            
+            iframeDoc.open();
+            iframeDoc.write(htmlCode);
+            iframeDoc.close();
+        }
+        
+        function formatCode() {
+            // Simple code formatting (indentation)
+            const code = htmlCodeTextarea.value;
+            let formattedCode = '';
+            let indentLevel = 0;
+            const lines = code.split('\n');
+            
+            for (let line of lines) {
+                line = line.trim();
+                
+                if (line.startsWith('</')) {
+                    indentLevel--;
+                }
+                
+                formattedCode += '    '.repeat(indentLevel) + line + '\n';
+                
+                if (line.startsWith('<') && !line.startsWith('</') && !line.endsWith('/>')) {
+                    indentLevel++;
+                }
+            }
+            
+            htmlCodeTextarea.value = formattedCode;
+            updateLineNumbers();
+        }
+        
+        function clearCode() {
+            if (confirm('Are you sure you want to clear the editor?')) {
+                htmlCodeTextarea.value = '';
+                updateLineNumbers();
+            }
+        }
+        
+        function insertTemplate() {
+            const template = `<!DOCTYPE html>
+<html>
+<head>
+    <title>My Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+            text-align: center;
+        }
+        h1 {
+            color: navy;
+        }
+    </style>
+</head>
+<body>
+    <h1>Hello, World!</h1>
+    <p>This is a sample HTML page.</p>
+</body>
+</html>`;
+            
+            htmlCodeTextarea.value = template;
+            updateLineNumbers();
+        }
+        
+        function toggleFullscreen() {
+            const editor = document.querySelector('.editor');
+            
+            if (!document.fullscreenElement) {
+                if (editor.requestFullscreen) {
+                    editor.requestFullscreen();
+                } else if (editor.webkitRequestFullscreen) {
+                    editor.webkitRequestFullscreen();
+                } else if (editor.msRequestFullscreen) {
+                    editor.msRequestFullscreen();
+                }
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                } else if (document.webkitExitFullscreen) {
+                    document.webkitExitFullscreen();
+                } else if (document.msExitFullscreen) {
+                    document.msExitFullscreen();
+                }
+            }
+        }
+        
+        // Menu functions
+        function newFile() {
+            if (confirm('Create a new file? Any unsaved changes will be lost.')) {
+                htmlCodeTextarea.value = '';
+                updateLineNumbers();
+            }
+        }
+        
+        function openFile() {
+            alert('File open functionality would be implemented here. In a real application, this would use the File API to read files from your computer.');
+        }
+        
+        function saveFile() {
+            const blob = new Blob([htmlCodeTextarea.value], { type: 'text/html' });
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(blob);
+            a.download = 'index.html';
+            a.click();
+        }
+        
+        function saveAsFile() {
+            const fileName = prompt('Enter file name:', 'index.html');
+            if (fileName) {
+                const blob = new Blob([htmlCodeTextarea.value], { type: 'text/html' });
+                const a = document.createElement('a');
+                a.href = URL.createObjectURL(blob);
+                a.download = fileName;
+                a.click();
+            }
+        }
+        
+        function printCode() {
+            const printWindow = window.open('', '_blank');
+            printWindow.document.write(`
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    <title>Print Code</title>
+                    <style>
+                        body { font-family: monospace; white-space: pre-wrap; }
+                        pre { background: #f5f5f5; padding: 15px; border-radius: 5px; }
+                    </style>
+                </head>
+                <body>
+                    <pre>${htmlCodeTextarea.value}</pre>
+                    <script>
+                        window.onload = function() {
+                            window.print();
+                        };
+                    <\/script>
+                </body>
+                </html>
+            `);
+            printWindow.document.close();
+        }
+        
+        function undo() {
+            document.execCommand('undo');
+        }
+        
+        function redo() {
+            document.execCommand('redo');
+        }
+        
+        function cut() {
+            document.execCommand('cut');
+        }
+        
+        function copy() {
+            document.execCommand('copy');
+        }
+        
+        function paste() {
+            document.execCommand('paste');
+        }
+        
+        function find() {
+            const findText = prompt('Find:');
+            if (findText) {
+                const text = htmlCodeTextarea.value;
+                const index = text.indexOf(findText);
+                if (index !== -1) {
+                    htmlCodeTextarea.focus();
+                    htmlCodeTextarea.setSelectionRange(index, index + findText.length);
+                } else {
+                    alert('Text not found');
+                }
+            }
+        }
+        
+        function replace() {
+            const findText = prompt('Find:');
+            if (findText) {
+                const replaceText = prompt('Replace with:');
+                if (replaceText !== null) {
+                    htmlCodeTextarea.value = htmlCodeTextarea.value.replace(new RegExp(findText, 'g'), replaceText);
+                }
+            }
+        }
+        
+        function zoomIn() {
+            fontSize += 1;
+            htmlCodeTextarea.style.fontSize = fontSize + 'px';
+            document.getElementById('font-size').value = fontSize;
+            document.getElementById('font-size-value').textContent = fontSize + 'px';
+        }
+        
+        function zoomOut() {
+            if (fontSize > 12) {
+                fontSize -= 1;
+                htmlCodeTextarea.style.fontSize = fontSize + 'px';
+                document.getElementById('font-size').value = fontSize;
+                document.getElementById('font-size-value').textContent = fontSize + 'px';
+            }
+        }
+        
+        function resetZoom() {
+            fontSize = 16;
+            htmlCodeTextarea.style.fontSize = fontSize + 'px';
+            document.getElementById('font-size').value = fontSize;
+            document.getElementById('font-size-value').textContent = fontSize + 'px';
+        }
+        
+        function toggleLineNumbers() {
+            showLineNumbers = !showLineNumbers;
+            lineNumbersElement.style.display = showLineNumbers ? 'block' : 'none';
+        }
+        
+        function runInNewTab() {
+            const blob = new Blob([htmlCodeTextarea.value], { type: 'text/html' });
+            const url = URL.createObjectURL(blob);
+            window.open(url, '_blank');
+        }
+        
+        function validateHTML() {
+            alert('HTML validation would be implemented here. In a real application, this would validate your HTML code against standards.');
+        }
+        
+        function clearOutput() {
+            document.getElementById('output').innerHTML = '';
+        }
+        
+        function openSettings() {
+            document.getElementById('settings-modal').style.display = 'flex';
+        }
+        
+        function changeTheme() {
+            alert('Theme selection would be implemented here. In a real application, this would allow you to change the editor theme.');
+        }
+        
+        function keyboardShortcuts() {
+            alert('Keyboard shortcuts:\n\n' +
+                  'Ctrl+S / Cmd+S: Save\n' +
+                  'Ctrl+Z / Cmd+Z: Undo\n' +
+                  'Ctrl+Y / Cmd+Y: Redo\n' +
+                  'Ctrl+F / Cmd+F: Find\n' +
+                  'Ctrl+Enter / Cmd+Enter: Run Code');
+        }
+        
+        function showHelp() {
+            document.getElementById('help-modal').style.display = 'flex';
+        }
+        
+        function showShortcuts() {
+            keyboardShortcuts();
+        }
+        
+        function about() {
+            alert('Advanced HTML Editor\nVersion 1.0\n\nA powerful editor for writing and testing HTML code.');
+        }
+        
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+        
+        function changeFontSize(size) {
+            fontSize = parseInt(size);
+            htmlCodeTextarea.style.fontSize = fontSize + 'px';
+            document.getElementById('font-size-value').textContent = fontSize + 'px';
+        }
+        
+        function changeTabSize(size) {
+            tabSize = parseInt(size);
+            htmlCodeTextarea.style.tabSize = tabSize;
+        }
+        
+        function toggleLineNumbersSetting() {
+            showLineNumbers = document.getElementById('line-numbers-toggle').checked;
+            lineNumbersElement.style.display = showLineNumbers ? 'block' : 'none';
+        }
+        
+        function toggleWordWrapSetting() {
+            wordWrap = document.getElementById('word-wrap-toggle').checked;
+            htmlCodeTextarea.style.whiteSpace = wordWrap ? 'pre-wrap' : 'pre';
+        }
+        
+        function toggleAutoFormat() {
+            autoFormat = document.getElementById('auto-format').checked;
+        }
+        
+        function saveSettings() {
+            alert('Settings saved!');
+            closeModal('settings-modal');
+        }
+        
+        // Add tab key support for indentation
+        htmlCodeTextarea.addEventListener('keydown', function(e) {
+            if (e.key === 'Tab') {
+                e.preventDefault();
+                
+                // Insert tab at cursor position
+                const start = this.selectionStart;
+                const end = this.selectionEnd;
+                
+                this.value = this.value.substring(0, start) + '    ' + this.value.substring(end);
+                
+                // Move cursor to after the tab
+                this.selectionStart = this.selectionEnd = start + 4;
+                
+                updateLineNumbers();
+            }
+            
+            // Keyboard shortcuts
+            if (e.ctrlKey || e.metaKey) {
+                switch(e.key) {
+                    case 's':
+                        e.preventDefault();
+                        saveFile();
+                        break;
+                    case 'z':
+                        e.preventDefault();
+                        undo();
+                        break;
+                    case 'y':
+                        e.preventDefault();
+                        redo();
+                        break;
+                    case 'f':
+                        e.preventDefault();
+                        find();
+                        break;
+                    case 'Enter':
+                        e.preventDefault();
+                        runCode();
+                        break;
+                }
+            }
+        });
+        
+        // Run the initial code
+        window.onload = function() {
+            runCode();
+            // Initialize settings
+            document.getElementById('font-size').value = fontSize;
+            document.getElementById('font-size-value').textContent = fontSize + 'px';
+            document.getElementById('tab-size').value = tabSize;
+            document.getElementById('line-numbers-toggle').checked = showLineNumbers;
+            document.getElementById('word-wrap-toggle').checked = wordWrap;
+            document.getElementById('auto-format').checked = autoFormat;
+        };
+    </script>
+    <body alink="pink" vlink="green">
+    <h1>Methods to run HTML File</h2>
+    <a href="Brow.html"><h2>Click Here</h2></a>
+    </body>
+</body>
+</html>
